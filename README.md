@@ -1,12 +1,13 @@
 # test-data-service-go
 分布式数据获取服务
 
+[v1.0.0 下载地址](https://github.com/dperfly/test-data-service-go/releases/tag/1.0.0) 
 
  ## 接口列表
 
 |  接口  | 说明 |
 |------ |----- |
-|[/{fileName}] | 获取数据接口|
+|/{fileName} | 获取数据接口|
 
 ***
 
