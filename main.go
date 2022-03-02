@@ -58,12 +58,17 @@ var fileDist = FileDist{
 	CsvFiles:  make(map[string]CsvFile),
 }
 
-func init() {
-	pwd, _ := os.Getwd()
-	filePathNames, _ := ioutil.ReadDir(filepath.Join(pwd, "file"))
+func loadData(path string) {
+	if path == "" {
+		pwd, _ := os.Getwd()
+		path = filepath.Join(pwd, "file")
+	}
+	filePathNames, _ := ioutil.ReadDir(path)
+
 	for _, v := range filePathNames {
 
-		AbsFilePath := filepath.Join(pwd, "file", v.Name())
+		AbsFilePath := filepath.Join(path, v.Name())
+		log.Println("load file: ", AbsFilePath)
 		fi, err := os.Open(AbsFilePath)
 		if err != nil {
 			log.Fatal(err)
@@ -241,9 +246,12 @@ func getData(writer http.ResponseWriter, request *http.Request) {
 func main() {
 	var ip string
 	var port string
+	var file string
 	flag.StringVar(&ip, "ip", "", "ip")
 	flag.StringVar(&port, "port", "8080", "port")
+	flag.StringVar(&file, "file", "", "file")
 	flag.Parse()
+	loadData(file)
 	addr := fmt.Sprint(ip, ":", port)
 	r := mux.NewRouter()
 	r.HandleFunc("/{title}", getData)
